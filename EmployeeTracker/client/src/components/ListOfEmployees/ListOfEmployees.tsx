@@ -11,6 +11,7 @@ export const ListOfEmployees: React.FC = () => {
                         <th scope="col">ID</th>
                         <th scope="col">Employee</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
                         <th scope="col">Role</th>
                         <th scope="col">Started Working In</th>
                         <th scope="col">Actions</th>

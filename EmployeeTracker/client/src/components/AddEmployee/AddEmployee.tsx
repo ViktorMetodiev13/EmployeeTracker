@@ -21,6 +21,7 @@ export const AddEmployee: React.FC = () => {
                 <div className="mb-3">
                     <label htmlFor="disabledSelect" className="form-label">Disabled select menu</label>
                     <select className="form-select">
+                        <option>Select an option</option>
                         <option>CEO/CTO</option>
                         <option>Team Lead</option>
                         <option>Senior</option>
