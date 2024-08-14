@@ -11,6 +11,15 @@ export const getAllEmployees = async (): Promise<EmployeeList> => {
     return employees;
 };
 
+// ADD TYPE TO WHAT THE FUNCTION SHOULD RETURN - PROMISE<?>
+// export const getOneEmployee = async (id: string) => {
+//     const response = await fetch(`${BASE_URL}/${id}`);
+//     // ADD TYPE FOR employee
+//     const employee = await response.json();
+
+//     return employee;
+// };
+
 // export const addEmployee = async (data: employeeSheme) => {
     
 // }
@@ -20,7 +29,7 @@ export const getAllEmployees = async (): Promise<EmployeeList> => {
 // }
 
 export const deleteEmployee = async (id: string) => {
-    const response = fetch(`${BASE_URL}/${id}`, {
+    await fetch(`${BASE_URL}/${id}`, {
         method: 'DELETE'
     });
 };

@@ -10,6 +10,9 @@ type ListOfEmployees = {
 
 export const ListOfEmployees: React.FC<ListOfEmployees> = ({ employees, onDeleteEmployee }) => {
     const onDeleteClick = (id: string) => {
+        // FIX ALERT TO WORK PROPERLY
+        window.alert('Are you sure you want to delete this employee?');
+
         onDeleteEmployee(id);
     }
 
@@ -19,7 +22,7 @@ export const ListOfEmployees: React.FC<ListOfEmployees> = ({ employees, onDelete
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Employee</th>
+                        <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Phone</th>
                         <th scope="col">Role</th>
