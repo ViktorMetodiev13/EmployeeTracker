@@ -19,7 +19,7 @@ export const AddEmployee: React.FC = () => {
                     <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="disabledSelect" className="form-label">Disabled select menu</label>
+                    <label htmlFor="disabledSelect" className="form-label">Role</label>
                     <select className="form-select">
                         <option>Select an option</option>
                         <option>CEO/CTO</option>
