@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
-import { getAllEmployees } from "./services/employee";
+import { deleteEmployee, getAllEmployees } from "./services/employee";
 
 import { EmployeeList } from "./utils/types";
 
@@ -21,8 +21,14 @@ function App() {
             })
     }, []);
 
-    const onDeleteClick = async (id: string) => {
+    const onDeleteEmployee = async (id: string) => {
+        try {
+            await deleteEmployee(id);
 
+            setEmployees(state => state.filter(employee => employee._id !== id));
+        } catch (error) {
+            console.log('error regarding the deletion of an employee. ' + error);
+        }
     };
 
     return (
@@ -32,6 +38,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/employees" element={<ListOfEmployees
                     employees={employees}
+                    onDeleteEmployee={onDeleteEmployee}
                 />} />
                 <Route path="/addemployee" element={<AddEmployee />} />
             </Routes>

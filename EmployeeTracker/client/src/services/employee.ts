@@ -9,7 +9,7 @@ export const getAllEmployees = async (): Promise<EmployeeList> => {
     const employees: EmployeeList = Object.values(data);
 
     return employees;
-}
+};
 
 // export const addEmployee = async (data: employeeSheme) => {
     
@@ -19,6 +19,8 @@ export const getAllEmployees = async (): Promise<EmployeeList> => {
     
 // }
 
-// export const deleteEmployee = async (id: number) => {
-
-// }
+export const deleteEmployee = async (id: string) => {
+    const response = fetch(`${BASE_URL}/${id}`, {
+        method: 'DELETE'
+    });
+};

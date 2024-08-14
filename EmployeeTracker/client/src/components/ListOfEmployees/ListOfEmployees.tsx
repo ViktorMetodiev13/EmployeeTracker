@@ -5,11 +5,12 @@ import React from "react"
 
 type ListOfEmployees = {
     employees: EmployeeList;
+    onDeleteEmployee: (id: string) => void;
 }
 
-export const ListOfEmployees: React.FC<ListOfEmployees> = ({ employees }) => {
+export const ListOfEmployees: React.FC<ListOfEmployees> = ({ employees, onDeleteEmployee }) => {
     const onDeleteClick = (id: string) => {
-        console.log(id);
+        onDeleteEmployee(id);
     }
 
     return (
