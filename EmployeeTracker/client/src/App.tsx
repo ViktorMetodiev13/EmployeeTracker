@@ -35,10 +35,10 @@ function App() {
         navigate('/employees');
     };
 
-    const onEditEmployee = async (e: fullEmployeeData) => {
-        navigate(`/employee/edit/${e._id}`);
+    const onEditEmployee = async (employeeData: fullEmployeeData) => {
+        navigate(`/employee/edit/${employeeData._id}`);
 
-        console.log(e);
+        console.log(employeeData);
     };
 
     const onDeleteEmployee = async (id: string) => {

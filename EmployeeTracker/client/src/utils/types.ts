@@ -35,11 +35,4 @@ export type addEmployeeSchema = {
     startedWorkingAt: string;
 };
 
-// export type editEmployeeSchema = {
-//     name: string;
-//     email: string;
-//     phone: string;
-//     role: string;
-// };
-
 export type EmployeeList = Employee[];
