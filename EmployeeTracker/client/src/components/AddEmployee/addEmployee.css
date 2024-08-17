@@ -3,3 +3,7 @@
     margin: auto;
     margin-top: 8%;
 }
+
+.form-errors {
+    color: #ca0b00;
+}

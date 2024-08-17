@@ -1,8 +1,8 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
-import { deleteEmployee, getAllEmployees } from "./services/employee";
+import { addEmployee, deleteEmployee, getAllEmployees } from "./services/employee";
 
-import { EmployeeList } from "./utils/types";
+import { EmployeeList, addEmployeeSchema, fullEmployeeData } from "./utils/types";
 
 import { Home } from "./components/Home/Home";
 import { Header } from "./components/Header/Header";
@@ -10,9 +10,12 @@ import { ListOfEmployees } from "./components/ListOfEmployees/ListOfEmployees";
 import { AddEmployee } from "./components/AddEmployee/AddEmployee";
 import { Footer } from "./components/Footer/Footer";
 import { useEffect, useState } from "react";
+import { EditEmployee } from "./components/EditEmployee/EditEmployee";
 
 function App() {
     const [employees, setEmployees] = useState<EmployeeList>([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllEmployees()
@@ -20,6 +23,23 @@ function App() {
                 setEmployees(result);
             })
     }, []);
+
+    const onAddEmployee = async (employeeData: addEmployeeSchema) => {
+        try {
+            const newEmployee = await addEmployee(employeeData);
+            setEmployees(state => ([...state, newEmployee]));
+        } catch (error) {
+            console.log('There was an error adding the employee.');
+        }
+
+        navigate('/employees');
+    };
+
+    const onEditEmployee = async (e: fullEmployeeData) => {
+        navigate(`/employee/edit/${e._id}`);
+
+        console.log(e);
+    };
 
     const onDeleteEmployee = async (id: string) => {
         try {
@@ -38,9 +58,13 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/employees" element={<ListOfEmployees
                     employees={employees}
+                    onEditEmployee={onEditEmployee}
                     onDeleteEmployee={onDeleteEmployee}
                 />} />
-                <Route path="/addemployee" element={<AddEmployee />} />
+                <Route path="/addemployee" element={<AddEmployee
+                    onAddEmployee={onAddEmployee}
+                />} />
+                <Route path="/employees/edit/:id" element={<EditEmployee />} />
             </Routes>
             <Footer />
         </div>

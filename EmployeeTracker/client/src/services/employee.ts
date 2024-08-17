@@ -1,12 +1,12 @@
-import { EmployeeList, dataServerResponse } from "../utils/types";
+import { EmployeeList, dataServerResponse, addEmployeeSchema } from "../utils/types";
 
 const BASE_URL = 'http://localhost:3030/jsonstore/employees';
 
 export const getAllEmployees = async (): Promise<EmployeeList> => {
     const response = await fetch(BASE_URL);
-    const data: dataServerResponse = await response.json();
+    const result: dataServerResponse = await response.json();
 
-    const employees: EmployeeList = Object.values(data);
+    const employees: EmployeeList = Object.values(result);
 
     return employees;
 };
@@ -20,9 +20,19 @@ export const getAllEmployees = async (): Promise<EmployeeList> => {
 //     return employee;
 // };
 
-// export const addEmployee = async (data: employeeSheme) => {
-    
-// }
+export const addEmployee = async (data: addEmployeeSchema) => {
+    const response = await fetch(BASE_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    return result;
+};
 
 // export const editEmployee = async (data: employeeSheme) => {
     

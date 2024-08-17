@@ -1,20 +1,28 @@
-import { EmployeeList } from '../../utils/types';
 import './listOfEmployees.css';
 
 import React from "react"
 
-type ListOfEmployees = {
+import { EmployeeList, fullEmployeeData } from '../../utils/types';
+
+
+type ListOfEmployeesProps = {
     employees: EmployeeList;
     onDeleteEmployee: (id: string) => void;
+    onEditEmployee: (e: fullEmployeeData) => void;
 }
 
-export const ListOfEmployees: React.FC<ListOfEmployees> = ({ employees, onDeleteEmployee }) => {
-    const onDeleteClick = (id: string) => {
-        // FIX ALERT TO WORK PROPERLY
-        window.alert('Are you sure you want to delete this employee?');
-
-        onDeleteEmployee(id);
+export const ListOfEmployees: React.FC<ListOfEmployeesProps> = ({ employees, onDeleteEmployee, onEditEmployee }) => {
+    const onDeleteClick = (id: string, name: string) => {
+        if (window.confirm(`Are you sure you want to delete this ${name}?`)) {
+            onDeleteEmployee(id);
+        };
     }
+
+    const onEditClick = (e: fullEmployeeData) => {
+
+
+        onEditEmployee(e);
+    };
 
     return (
         <div className="employees-table">
@@ -40,7 +48,7 @@ export const ListOfEmployees: React.FC<ListOfEmployees> = ({ employees, onDelete
                             <td>{e.role}</td>
                             <td>{e.startedWorkingAt}</td>
                             <td>
-                            <button type="button" className="btn btn-primary">Edit</button> <button type="button" className="btn btn-danger" onClick={() => onDeleteClick(e._id)}>Delete</button></td>
+                                <button type="button" className="btn btn-primary" onClick={() => onEditClick(e)}>Edit</button> <button type="button" className="btn btn-danger" onClick={() => onDeleteClick(e._id, e.name)}>Delete</button></td>
                         </tr>
                     )}
                 </tbody>
