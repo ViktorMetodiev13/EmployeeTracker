@@ -1,6 +1,6 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 
-import { addEmployee, deleteEmployee, getAllEmployees } from "./services/employee";
+import { addEmployee, deleteEmployee, editEmployee, getAllEmployees } from "./services/employee";
 
 import { EmployeeList, addEmployeeSchema, fullEmployeeData } from "./utils/types";
 
@@ -35,10 +35,16 @@ function App() {
         navigate('/employees');
     };
 
-    const onEditEmployee = async (employeeData: fullEmployeeData) => {
-        navigate(`/employee/edit/${employeeData._id}`);
+    const onEditEmployee = async (employeeData: fullEmployeeData) => {        
+        try {
+            const newEmployeeData = await editEmployee(employeeData);
 
-        console.log(employeeData);
+            setEmployees(state => state.map(e => e._id === e._id ? newEmployeeData : e));
+
+            navigate('/employees');
+        } catch (error) {
+            console.log("There is an error regarding the edit course request.");
+        }
     };
 
     const onDeleteEmployee = async (id: string) => {
@@ -58,13 +64,12 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/employees" element={<ListOfEmployees
                     employees={employees}
-                    onEditEmployee={onEditEmployee}
                     onDeleteEmployee={onDeleteEmployee}
                 />} />
                 <Route path="/addemployee" element={<AddEmployee
                     onAddEmployee={onAddEmployee}
                 />} />
-                <Route path="/employees/edit/:id" element={<EditEmployee />} />
+                <Route path="/employees/:id/edit" element={<EditEmployee onEditEmployee={onEditEmployee}/>} />
             </Routes>
             <Footer />
         </div>

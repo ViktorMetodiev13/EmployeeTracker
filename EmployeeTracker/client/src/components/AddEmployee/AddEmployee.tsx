@@ -50,6 +50,7 @@ export const AddEmployee: React.FC<AddEmployeeProps> = ({ onAddEmployee }) => {
 
     return (
         <div className='add-employee'>
+            <h2 className='employee-form-heading'>Add Employee</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>

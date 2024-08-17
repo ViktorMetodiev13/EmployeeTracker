@@ -1,21 +1,46 @@
-import React from "react"
+import './editEmployee.css';
+
+import React, { useEffect, useState } from "react"
 
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import { getStartingEmployeeDate } from "../../utils/getStartingEmployeeDate";
+
+import { fullEmployeeData } from '../../utils/types';
+import { useParams } from 'react-router-dom';
+import { getOneEmployee } from '../../services/employee';
 
 
 type EditEmployeeProps = {
-    onEditEmployee: () => void;
+    onEditEmployee: (employeeData: fullEmployeeData) => void;
 }
 
 export const EditEmployee: React.FC<EditEmployeeProps> = ({ onEditEmployee }) => {
+    const { id } = useParams();
+    const [employee, setEmployee] = useState<fullEmployeeData>({
+        name: '',
+        email: '',
+        phone: '',
+        role: '',
+        _id: '',
+        startedWorkingAt: ''
+    });
+
+    useEffect(() => {
+        getOneEmployee(id)
+            .then(result => {
+                setEmployee(result);
+            })
+    }, [id]);
+
     const { handleSubmit, handleChange, values, touched, errors, handleBlur } = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            name: '',
-            email: '',
-            phone: '',
-            role: '',
+            name: employee?.name || '',
+            email: employee?.email || '',
+            phone: employee?.phone || '',
+            role: employee?.role || '',
+            _id: employee?._id || '',
+            startedWorkingAt: employee?.startedWorkingAt || ''
         },
         validationSchema: Yup.object({
             name: Yup.string()
@@ -36,17 +61,14 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({ onEditEmployee }) =>
                 .required('Required'),
         }),
         onSubmit: () => {
-            const updatedValues = {
-                ...values,
-                startedWorkingAt: getStartingEmployeeDate()
-            }
 
-            onEditEmployee(updatedValues);
+            onEditEmployee(values);
         }
     });
 
     return (
         <div className="edit-employee">
+            <h2 className='employee-form-heading'>Edit Employee</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
@@ -71,7 +93,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({ onEditEmployee }) =>
                         id="email"
                         aria-describedby="emailHelp"
                         onChange={handleChange}
-                        value={values.email}
+                        defaultValue={employee.email}
                         onBlur={handleBlur}
                     />
                     {touched.email && errors.email ? (
@@ -86,7 +108,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({ onEditEmployee }) =>
                         id="phone"
                         aria-describedby="emailHelp"
                         onChange={handleChange}
-                        value={values.phone}
+                        defaultValue={employee.phone}
                         onBlur={handleBlur}
                     />
                     {touched.phone && errors.phone ? (
