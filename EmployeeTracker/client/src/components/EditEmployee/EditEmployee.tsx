@@ -63,7 +63,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({ onEditEmployee }) =>
             const updatedValues = {
                 ...employee,
                 ...values,
-            }
+            };
 
             onEditEmployee(updatedValues);
         }
