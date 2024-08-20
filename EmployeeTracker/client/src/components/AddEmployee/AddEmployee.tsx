@@ -2,10 +2,10 @@ import './addEmployee.css';
 
 import React from "react";
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 
 import { addEmployeeSchema } from "../../utils/types";
 import { getStartingEmployeeDate } from '../../utils/getStartingEmployeeDate';
+import { addEditForm } from '../../schemas/addEditForm';
 
 
 type AddEmployeeProps = {
@@ -20,24 +20,7 @@ export const AddEmployee: React.FC<AddEmployeeProps> = ({ onAddEmployee }) => {
             phone: '',
             role: '',
         },
-        validationSchema: Yup.object({
-            name: Yup.string()
-                .max(50, 'The maximum characters for name are 50')
-                .min(2, 'Name used be minimum 3 characters')
-                .matches(/^[A-Za-z]+ [A-Za-z]+$/, 'Please Enter first and last name')
-                .required('A name is required'),
-            email: Yup.string()
-                .email('Please enter valid email')
-                .required('An email is required'),
-            phone: Yup.number()
-                .typeError("That doesn't look like a phone number")
-                .positive("A phone number can't start with a minus")
-                .integer("A phone number can't include a decimal point")
-                .min(8, 'Phone should be minimum 8 numbers')
-                .required('A phone number is required'),
-            role: Yup.string()
-                .required('Required'),
-        }),
+        validationSchema: addEditForm,
         onSubmit: () => {
             const updatedValues = {
                 ...values,

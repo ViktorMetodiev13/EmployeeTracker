@@ -3,11 +3,11 @@ import './editEmployee.css';
 import React, { useEffect, useState } from "react"
 
 import { useFormik } from "formik";
-import * as Yup from 'yup';
 
 import { fullEmployeeData } from '../../utils/types';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getOneEmployee } from '../../services/employee';
+import { addEditForm } from '../../schemas/addEditForm';
 
 
 type EditEmployeeProps = {
@@ -41,24 +41,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({ onEditEmployee }) =>
             phone: employee?.phone || '',
             role: employee?.role || '',
         },
-        validationSchema: Yup.object({
-            name: Yup.string()
-                .max(50, 'The maximum characters for name are 50')
-                .matches(/^[A-Za-z]+ [A-Za-z]+$/, 'Please enter valid first and last name')
-                .min(2, 'Name used be minimum 3 characters')
-                .required('A name is required'),
-            email: Yup.string()
-                .email('Please enter valid email')
-                .required('An email is required'),
-            phone: Yup.number()
-                .typeError("That doesn't look like a phone number")
-                .positive("A phone number can't start with a minus")
-                .integer("A phone number can't include a decimal point")
-                .min(8, 'Phone should be minimum 8 numbers')
-                .required('A phone number is required'),
-            role: Yup.string()
-                .required('Required'),
-        }),
+        validationSchema: addEditForm,
         onSubmit: () => {
             const updatedValues = {
                 ...employee,
