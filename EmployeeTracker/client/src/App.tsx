@@ -27,6 +27,7 @@ function App() {
     const onAddEmployee = async (employeeData: addEmployeeSchema) => {
         try {
             const newEmployee = await addEmployee(employeeData);
+            
             setEmployees(state => ([...state, newEmployee]));
         } catch (error) {
             console.log('There was an error adding the employee.');
@@ -39,7 +40,7 @@ function App() {
         try {
             const newEmployeeData = await editEmployee(employeeData);
 
-            setEmployees(state => state.map(e => e._id === e._id ? newEmployeeData : e));
+            setEmployees(state => state.map(employee => employee._id === employeeData._id ? newEmployeeData : employee));
 
             navigate('/employees');
         } catch (error) {

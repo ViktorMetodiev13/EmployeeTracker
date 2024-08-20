@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 
 import { fullEmployeeData } from '../../utils/types';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getOneEmployee } from '../../services/employee';
 
 
@@ -15,6 +15,7 @@ type EditEmployeeProps = {
 }
 
 export const EditEmployee: React.FC<EditEmployeeProps> = ({ onEditEmployee }) => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const [employee, setEmployee] = useState<fullEmployeeData>({
         name: '',
@@ -39,14 +40,12 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({ onEditEmployee }) =>
             email: employee?.email || '',
             phone: employee?.phone || '',
             role: employee?.role || '',
-            _id: employee?._id || '',
-            startedWorkingAt: employee?.startedWorkingAt || ''
         },
         validationSchema: Yup.object({
             name: Yup.string()
                 .max(50, 'The maximum characters for name are 50')
+                .matches(/^[A-Za-z]+ [A-Za-z]+$/, 'Please enter valid first and last name')
                 .min(2, 'Name used be minimum 3 characters')
-                .matches(/^[A-Za-z]+ [A-Za-z]+$/, 'Please Enter first and last name')
                 .required('A name is required'),
             email: Yup.string()
                 .email('Please enter valid email')
@@ -61,8 +60,12 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({ onEditEmployee }) =>
                 .required('Required'),
         }),
         onSubmit: () => {
+            const updatedValues = {
+                ...employee,
+                ...values,
+            }
 
-            onEditEmployee(values);
+            onEditEmployee(updatedValues);
         }
     });
 
@@ -137,7 +140,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({ onEditEmployee }) =>
                         <div className='form-errors'>{errors.role}</div>
                     ) : null}
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary">Save</button> <button type="button" className="btn btn-danger" onClick={() => {navigate('/employees');}}>Cancel</button>
             </form>
         </div>
     )
