@@ -7,9 +7,6 @@
 ## Features
 
 - **Full CRUD Functionality**: Create, view, update, and delete employee records.
-- **TypeScript**: Strongly typed codebase, enhancing code quality and reducing runtime errors.
-- **Formik**: Simplified form management with minimal boilerplate.
-- **Yup**: Schema-based validation for robust and maintainable form validation logic.
 
 ## Tech Stack
 
@@ -18,6 +15,5 @@
   - TypeScript
   - Formik (for form management)
   - Yup (for form validation)
-  - Jest (JS testing framework)
 - **Backend**:
   - **Softuni Practice Server**: [Softuni Practice Server on GitHub](https://github.com/softuni-practice-server/softuni-practice-server)
