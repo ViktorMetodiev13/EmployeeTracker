@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { addEmployeeSchema, EmployeeList, fullEmployeeData } from "../utils/types";
+import { addEmployeeSchema, fullEmployeeData } from "../utils/types";
 import { addEmployee, deleteEmployee, editEmployee, getAllEmployees } from "../services/employee";
 import { useDispatch, useSelector } from "react-redux";
 import { addEmployeeToState, deleteEmployeeFromState, editEmployeeInState, setAllEmployeesToState } from "../redux/employeeSlice";
 import { RootState } from "../redux/store";
 
 export const useEmployee = () => {
-    const employees = useSelector((state: RootState) => state.employee); // Assuming `employee` is the state slice name
+    const employees = useSelector((state: RootState) => state.employee);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ export const useEmployee = () => {
     const onDeleteEmployee = async (id: string) => {
         try {
             await deleteEmployee(id);
-            
+
             dispatch(deleteEmployeeFromState(id));
         } catch (error) {
             console.error('There was an error deleting the employee:', error);

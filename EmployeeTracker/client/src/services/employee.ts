@@ -4,6 +4,7 @@ const BASE_URL = 'http://localhost:3030/jsonstore/employees';
 
 export const getAllEmployees = async (): Promise<EmployeeList> => {
     const response = await fetch(BASE_URL);
+    
     if (!response.ok) {
         throw new Error('Failed to fetch employees');
     }
@@ -19,6 +20,7 @@ export const getAllEmployees = async (): Promise<EmployeeList> => {
 
 export const getOneEmployee = async (id: string | undefined): Promise<fullEmployeeData> => {
     const response = await fetch(`${BASE_URL}/${id}`);
+
     if (!response.ok) {
         throw new Error('Failed to fetch employee');
     }
