@@ -15,5 +15,6 @@
   - TypeScript
   - Formik (for form management)
   - Yup (for form validation)
+  - Redux Tookit
 - **Backend**:
   - **Softuni Practice Server**: [Softuni Practice Server on GitHub](https://github.com/softuni-practice-server/softuni-practice-server)
