@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Employee Tracker** is a basic full CRUD (Create, Read, Update, Delete) application designed for practicing Redux/toolkit, TypeScript and exploring Formik and Yup for form handling and validation as well as jest for testing. This project serves as a hands-on learning experience, combining a TypeScript-based frontend with a simple backend API to manage employee data.
+**Employee Tracker** is a comprehensive CRUD application built to practice key frontend and backend technologies. The frontend is developed using **React** with **TypeScript**, styled with **Bootstrap**, and leverages **Formik** for form management along with **Yup** for validation. **Redux Toolkit** is utilized for efficient state management. The backend interacts with the **Softuni Practice Server** to manage employee data, providing a seamless hands-on experience in building and integrating full-stack applications.
 
 ## Features
 
@@ -13,6 +13,7 @@
 - **Frontend**:
   - React
   - TypeScript
+  - Bootstrap
   - Formik (for form management)
   - Yup (for form validation)
   - Redux Toolkit
