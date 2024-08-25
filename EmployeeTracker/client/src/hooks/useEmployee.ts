@@ -3,52 +3,63 @@ import { useNavigate } from "react-router-dom";
 
 import { addEmployeeSchema, EmployeeList, fullEmployeeData } from "../utils/types";
 import { addEmployee, deleteEmployee, editEmployee, getAllEmployees } from "../services/employee";
+import { useDispatch, useSelector } from "react-redux";
+import { addEmployeeToState, deleteEmployeeFromState, editEmployeeInState, setAllEmployeesToState } from "../redux/employeeSlice";
+import { RootState } from "../redux/store";
 
 export const useEmployee = () => {
-    const [employees, setEmployees] = useState<EmployeeList>([]);
-
+    const employees = useSelector((state: RootState) => state.employee); // Assuming `employee` is the state slice name
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
         getAllEmployees()
             .then(result => {
-                setEmployees(result);
+                dispatch(setAllEmployeesToState(result));
             })
-    }, []);
+            .catch(error => {
+                console.error('Failed to fetch employees:', error);
+            });
+    }, [dispatch]);
 
     const onAddEmployee = async (employeeData: addEmployeeSchema) => {
         try {
-            const newEmployee = await addEmployee(employeeData);
+            const newEmployee: fullEmployeeData = await addEmployee(employeeData);
             
-            setEmployees(state => ([...state, newEmployee]));
-        } catch (error) {
-            console.log('There was an error adding the employee.');
-        }
-
-        navigate('/employees');
-    };
-
-    const onEditEmployee = async (employeeData: fullEmployeeData) => {        
-        try {
-            const newEmployeeData = await editEmployee(employeeData);
-
-            setEmployees(state => state.map(employee => employee._id === employeeData._id ? newEmployeeData : employee));
+            dispatch(addEmployeeToState(newEmployee));
 
             navigate('/employees');
         } catch (error) {
-            console.log("There is an error regarding the edit course request.");
+            console.log('There was an error adding the employee.');
+        }
+    };
+
+    const onEditEmployee = async (employeeData: fullEmployeeData) => {
+        try {
+            const updatedEmployeeData = await editEmployee(employeeData);
+
+            dispatch(editEmployeeInState(updatedEmployeeData));
+
+            navigate('/employees');
+        } catch (error) {
+            console.error("There was an error editing the employee:", error);
         }
     };
 
     const onDeleteEmployee = async (id: string) => {
         try {
             await deleteEmployee(id);
-
-            setEmployees(state => state.filter(employee => employee._id !== id));
+            
+            dispatch(deleteEmployeeFromState(id));
         } catch (error) {
-            console.log('error regarding the deletion of an employee. ' + error);
+            console.error('There was an error deleting the employee:', error);
         }
     };
 
-    return { employees, onAddEmployee, onEditEmployee, onDeleteEmployee };
+    return {
+        employees,
+        onAddEmployee,
+        onEditEmployee,
+        onDeleteEmployee,
+    };
 }

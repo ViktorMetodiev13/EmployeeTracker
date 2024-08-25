@@ -1,8 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
+import employeeSlice from "./employeeSlice";
 
 
 export const store = configureStore({
-    reducer: {}
+    reducer: {
+        employee: employeeSlice
+    }
 })
 
 export type RootState = ReturnType<typeof store.getState>

@@ -4,21 +4,30 @@ const BASE_URL = 'http://localhost:3030/jsonstore/employees';
 
 export const getAllEmployees = async (): Promise<EmployeeList> => {
     const response = await fetch(BASE_URL);
+    if (!response.ok) {
+        throw new Error('Failed to fetch employees');
+    }
+
     const result: dataServerResponse = await response.json();
 
-    const employees: EmployeeList = Object.values(result);
+    if (response.status === 204) {
+        return [];
+    }
 
-    return employees;
+    return Object.values(result);
 };
 
-export const getOneEmployee = async (id: string | undefined) => {
+export const getOneEmployee = async (id: string | undefined): Promise<fullEmployeeData> => {
     const response = await fetch(`${BASE_URL}/${id}`);
-    const employee: fullEmployeeData = await response.json();
+    if (!response.ok) {
+        throw new Error('Failed to fetch employee');
+    }
 
+    const employee: fullEmployeeData = await response.json();
     return employee;
 };
 
-export const addEmployee = async (data: addEmployeeSchema) => {
+export const addEmployee = async (data: addEmployeeSchema): Promise<fullEmployeeData> => {
     const response = await fetch(BASE_URL, {
         method: 'POST',
         headers: {
@@ -27,27 +36,35 @@ export const addEmployee = async (data: addEmployeeSchema) => {
         body: JSON.stringify(data)
     });
 
-    const result = await response.json();
+    if (!response.ok) {
+        throw new Error('Failed to add employee');
+    }
 
-    return result;
+    return await response.json();
 };
 
 export const editEmployee = async (employeeData: fullEmployeeData): Promise<fullEmployeeData> => {
     const response = await fetch(`${BASE_URL}/${employeeData._id}`, {
         method: 'PUT',
         headers: {
-            'content-type': 'application/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(employeeData)
     });
 
-    const result = await response.json();
+    if (!response.ok) {
+        throw new Error('Failed to edit employee');
+    }
 
-    return result;
-}
+    return await response.json();
+};
 
-export const deleteEmployee = async (id: string) => {
-    await fetch(`${BASE_URL}/${id}`, {
+export const deleteEmployee = async (id: string): Promise<void> => {
+    const response = await fetch(`${BASE_URL}/${id}`, {
         method: 'DELETE'
     });
+
+    if (!response.ok) {
+        throw new Error('Failed to delete employee');
+    }
 };

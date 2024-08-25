@@ -6,7 +6,7 @@ export const addEditForm = Yup.object().shape({
     name: Yup.string()
         .max(50, 'The maximum characters for name are 50')
         .min(2, 'Name used be minimum 3 characters')
-        .matches(validateName, 'Please Enter first and last name')
+        .matches(validateName, 'Please Enter first and last name. It can contain only alphabetical letters.')
         .required('A name is required'),
     email: Yup.string()
         .email('Please enter valid email')
