@@ -14,8 +14,8 @@
   - React
   - TypeScript
   - Bootstrap
-  - Formik (for form management)
-  - Yup (for form validation)
+  - Formik (for forms management)
+  - Yup (for form validations)
   - Redux Toolkit
   - React-router-dom
 - **Backend**:
